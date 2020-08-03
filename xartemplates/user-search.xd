@@ -1,0 +1,43 @@
+<xar:comment>
+    License: GPL http://www.gnu.org/copyleft/gpl.html
+</xar:comment>
+<xar:if condition="empty($ishooked)">
+<div class="search">
+    <h2>
+        <xar:mlstring>
+            Search for Example Items
+        </xar:mlstring>
+    </h2>
+    <xar:if condition="!empty($example) and count($example) gt 0">
+        <h3>
+            <xar:mlstring>Example Items Found:</xar:mlstring>
+        </h3>
+        <ul>
+            <xar:foreach in="$example" key="$key" value="$exitem">
+                <li>
+                    <a href="#xarModURL('example', 'user', 'display', array('exid' => $exitem['exid']))#">
+                        #$exitem['number']# - #$exitem['name']#
+                    </a>
+                </li>
+            </xar:foreach>
+        </ul>
+    </xar:if>
+    <xar:if condition="!empty($status)">
+        <p>#$status#</p>
+    </xar:if>
+        <p>
+            <xar:mlstring>Search in:</xar:mlstring>
+        </p>
+
+         <div class="xar-form-input-wrapper">
+            <xar:set name="name">isset($name)? $name:FALSE</xar:set>
+            <xar:data-input type="checkbox" name="name" id="name"  value="$name" />
+            <label><xar:mlstring>Example Name</xar:mlstring></label>
+        </div>
+         <div class="xar-form-input-wrapper">
+            <xar:set name="number">isset($number)?$number:FALSE</xar:set>
+            <xar:data-input type="checkbox" name="number" id="number" value="$number" />
+            <label><xar:mlstring>Example Number</xar:mlstring></label>
+    </div>
+</div>
+</xar:if>

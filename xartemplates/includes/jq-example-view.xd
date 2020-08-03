@@ -1,0 +1,110 @@
+<xar:comment>
+    Load up our validate plugin into the global javascript queue using standard javascript tag with appropriate atributes:
+     * we nominate the library using the libname and libfile attribute
+     * we specify the plugin and the plugin file (we could be using some other non-jquery library too!)
+</xar:comment>
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="validate" pluginfile="jquery.validate.min" />
+
+<xar:comment>
+    Now set our code for the dialog and validation in a variable called $examplecode so we can load it easier using the javascript tag
+    Make sure when using JQuery that you wrap your code in: $(document).ready(function() { ... your code here ....});
+    Other libraries such as mootools or extjs may require other wrappers for ensuring the document is ready.
+    These separate javascript snippets may be made available to other modules as well.
+</xar:comment>
+<xar:set name="examplecode">"
+$(document).ready(function() {
+    // dimensions of the delete prompt dialog
+    var delete_dialog_width = 300;
+    var delete_dialog_height = 200;
+
+    // size of the modify dialog is based on the window
+    var dialog_width = Math.floor(jQuery(window).width() * .85);
+    var dialog_height = Math.floor(jQuery(window).height() * .85);
+
+    // Create an onclick handler for the delete links
+    jQuery('table.xar-items a[id^=delete]').click(function() {
+        var a = this;
+        // remove and recreate the dialog container
+        jQuery('#"."xardialogtarget').remove();
+        jQuery('body').append('".chr(60)."div id=\'xardialogtarget\' style=\'display: none;\'".chr(62).chr(60)."/div".chr(62)."');
+        // populate the dialog... we get the content of the first TD in the row
+        jQuery('#" . "xardialogtarget').html('".chr(60)."h3" . chr(62) . xarML('Delete this example item?') . chr(60) ."/h3" . chr(62) . chr(60) . "p style=\'text-align: center;\'" . chr(62) . "' + jQuery.trim(jQuery(this).parent().parent().children(':first').text()) + '" . chr(60) . "/p" . chr(62) ."');
+
+        jQuery('#" . "xardialogtarget').dialog({
+            // dialog options
+            title: '" . xarML('Delete example item') . "',
+            width: delete_dialog_width,
+            height: delete_dialog_height,
+            buttons: {
+                // Cancel button
+                '". xarML('Cancel') . "': function() { jQuery(this).dialog('close'); },
+                // Delete button: we add confirm param to the delete URL, and set window.location to it
+                '". xarML('Delete') . "': function() { a.setAttribute('href', a.getAttribute('href') + '".chr(38)."confirm=1');jQuery(this).dialog('close');window.location = a.getAttribute('href'); }
+            },
+            modal: true,
+            draggable: false,
+            resizable: false
+        });
+        return false;
+    });
+
+    // validation rules for the modify form
+    var modify_validate = {
+        rules: {
+            name: {
+                required: true
+            },
+            number: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            name: {
+                required: '" . xarML('* Required - Name must not be empty and must be unique') . "'
+            },
+            number: {
+                required: '" . xarML('* Required - Number must not be empty') . "',
+                number: '" . xarML('* Must be a number') . "'
+            }
+        },
+        errorClass: 'xar-error',
+        errorElement: 'div'
+    };
+
+    // Create an onclick handler for the modify links
+    // We will load the form into a dialog via ajax, but submit the form normally
+    var modify_dialog = function() {
+        // remove and recreate the dialog container
+        jQuery('#"."xardialogtarget').remove();
+
+        jQuery('body').append('".chr(60)."div id=\'xardialogtarget\' style=\'display: none;\'".chr(62).chr(60)."/div".chr(62)."');
+        // we append pageName=module to the modify URL so only the module space is returned
+        // also, we only put the contents of xar-mod-body into the dialog
+        // we need to pass a callback to load() for the validation to work
+        jQuery('#" . "xardialogtarget').load(this.getAttribute('href') + '".chr(38)."pageName=module .xar-mod-body ".chr(62)." *', {}, function (){
+                jQuery('#example_form').validate(modify_validate);
+        }).dialog(
+            {
+                title: jQuery(this).text(),
+                width: dialog_width,
+                height: dialog_height,
+                bgiframe: true,
+                modal: true,
+                draggable: false,
+                resizable: false,
+                buttons: {
+                    '" . xarML('Close') . "': function() { jQuery(this).dialog('close');}
+                }
+            }
+        );
+        return false;
+    }
+    jQuery('table.xar-items a[id^=modify]').click(modify_dialog);
+    jQuery('#example_form').validate(modify_validate);
+});
+"</xar:set>
+<xar:comment>
+    Load our example code into the global javascript queue so it is ready for loading in the body of our page when ready
+</xar:comment>
+<xar:base-include-javascript type="code" code="$examplecode" position="body"/>

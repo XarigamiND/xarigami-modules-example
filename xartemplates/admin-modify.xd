@@ -1,0 +1,120 @@
+<xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:comment>
+            Common admin menu.
+            The variables used in this menu come from example_admin_getmenulinks()
+        </xar:comment>
+        <xar:comment>Only show the menus if this is NOT an ajax request</xar:comment>
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <xar:comment> the specific template for the current admin function comes here </xar:comment>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Modify item</xar:mlstring></h1>
+        <xar:comment> the specific template for the current admin function comes here </xar:comment>
+        <div class="xar-mod-content">
+            <form method="post" id="example_form" action="&xar-modurl-example-admin-update;" >
+                <fieldset>
+                    <legend>
+                        <xar:mlstring>Item to Modify</xar:mlstring>
+                    </legend>
+
+                    <div class="xar-form-input-wrapper">
+                        <label for="name" class="xar-form-label" title="#xarML('This is the tool tip help for this item.')#">
+                               <xar:mlstring>Example Name:</xar:mlstring>
+                        </label>
+                        <xar:if condition="isset($name)">
+                            <input type="text" name="name" id="name" value="#$name#" maxlength="32" class="xar-form-textmedium" />
+                        <xar:else />
+                            <input type="text" name="name" id="name" value="#$item.name#" maxlength="32" class="xar-form-textmedium" />
+                        </xar:if>
+                        <xar:if condition="!empty($invalid['name'])">
+                            <p class="xar-form-input-wrapper-after xar-error">
+                                <xar:comment>Display the default error message</xar:comment>
+                               #$invalid['name']#
+                                <xar:comment>Alternatively display our own message</xar:comment>
+                                <xar:comment>
+                                    <xar:mlstring>ERROR! This is not a valid example name</xar:mlstring>
+                                </xar:comment>
+                            </p>
+                        </xar:if>
+                    </div>
+
+
+                    <div class="xar-form-input-wrapper">
+                        <label for="nridforexamplepurpose" class="xar-form-label" title="#xarML('This is the tool tip help for this item.')#">
+                               <xar:mlstring>Example Number:</xar:mlstring>
+                        </label>
+                        <xar:if condition="isset($number)">
+                            <input type="text" name="number" id="nridforexamplepurpose" value="#$number#" maxlength="5" class="xar-form-textshort" />
+                        <xar:else />
+                            <input type="text" name="number" id="nridforexamplepurpose" value="#$item.number#" maxlength="5" class="xar-form-textshort" />
+                        </xar:if>
+                        <xar:if condition="!empty($invalid['number'])">
+                            <p class="xar-form-input-wrapper-after xar-error">
+                                <xar:comment>Display the default error message</xar:comment>
+                               #$invalid['number']#
+                                <xar:comment>Alternatively display our own message</xar:comment>
+                                <xar:comment>
+                                    <xar:mlstring>ERROR! This is not a valid example Number</xar:mlstring>
+                                </xar:comment>
+                            </p>
+                        </xar:if>
+                    </div>
+                </fieldset>
+
+                <xar:if condition="!empty($hooks)">
+                  <fieldset>
+                      <legend><xar:mlstring>Hooked content</xar:mlstring></legend>
+                          <xar:foreach in="$hooks" key="$hookmodule">
+                              <xar:comment>
+                                  You can display individual hooks if you want using xar:if statements
+
+                                  <xar:if condition="($hookmodule eq 'categories') and !empty($hookmodule)">
+                                      #$hooks['categories']#
+                                  </xar:if>
+
+                                  or display them all with one command as follows
+                              </xar:comment>
+                              #$hooks[$hookmodule]#
+                        </xar:foreach>
+                  </fieldset>
+                </xar:if>
+                <div class="xar-form-footer">
+                    <xar:comment>
+                        * Add an authorisation ID - this adds a hidden field in the form that
+                        * contains an authorisation ID. The authorisation ID is very important in
+                        * preventing certain attacks on the website
+                    </xar:comment>
+                   <input type="hidden" name="authid" id="authid" value="#$authid#" />
+
+                   <input type="hidden" name="exid" id="exid" value="#$item.exid#" />
+                   <input type="submit" value="#xarML('Update Item')#" />
+
+                    <xar:comment>
+                     * Optionally set a return URL here for cancelling the delete.
+                     * In this case it's easy as we know where the user
+                     * has come from - there is only the admin view form that leads to delete
+                     * so let's set that here
+                     * Make sure we also set the text so it can be translated
+                     * by wrapping the display text in xar:mlstring tag
+                     *
+                     * Adding a link rather than a button and moving it away from Submit
+                     * make it less likely of a mistaken click on cancel
+                     *
+                    </xar:comment>
+                    <xar:if condition="!xarRequestIsAJAX()">
+                        <p class="xar-align-center">
+                            <a href="#xarModURL('example','admin','view')#">
+                                <xar:mlstring>Cancel</xar:mlstring>
+                            </a>
+                        </p>
+                    </xar:if>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

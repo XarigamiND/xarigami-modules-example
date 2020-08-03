@@ -1,0 +1,26 @@
+<xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
+<!-- common user menu for this module - remove link to the current function -->
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:comment>
+            Common user menu.
+            The variables used in this menu come from example_admin_getmenulinks()
+        </xar:comment>
+        <xar:comment>Only show the menus if this is NOT an ajax request</xar:comment>
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="user-menu" />
+        </xar:if>
+    </div>
+    <xar:comment> the specific template for the current admin function comes here </xar:comment>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Example</xar:mlstring></h1>
+            <!-- the specific template for the current function comes here -->
+
+            <!-- some variable filled in by the function using this template -->
+        <div class="xar-mod-content">
+            <p>
+                 <xar:mlstring>Welcome to this Example module.</xar:mlstring>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
+<xar:comment>Load our sprites CSS if we are using sprites instead of images</xar:comment>
+<xar:style file="xgamisprites" module="base" scope="module" version="1.0"/>
+<xar:comment>
+    We are using the xarigami bundled jQuery UI plugin to confirm item deletion. This requires us to:
+    * Explicitly load jQuery in case it is not already loaded (it will not be loaded again if already loaded)
+    * Load the UI plugin, and its CSS
+    * Create a custom javascript string for this function to hold our prompt code
+    * Load the custom javascript code string into the xarigami global javascript
+      queue so it is ready for loading when required by this page.
+</xar:comment>
+<xar:comment>Explicitly load the jQuery library file, plus the UI plugin core and dialog code in one tag </xar:comment>
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="ui" pluginfile="ui.core.min,ui.dialog.min" style="ui.css" />
+<xar:comment>
+    Put our custom javascript string in an include template called 'jq-example-view.xd' to keep this template tidy.
+    The template is located in the xartemplates/includes directory by default, and can be overridden in the equivalent directory in your theme.
+    We then load this include template using standard template tag.
+    We could also put the contents of this include template directly in this template.
+</xar:comment>
+<xar:template type="module" module="example" file="jq-example-view" />
+<xar:comment>
+    Set ommonly translated variables so they only need be translated once
+    the variables used in this menu come from example_admin_menu()
+</xar:comment>
+<xar:set name="deletelabel"><xar:mlstring>Delete</xar:mlstring></xar:set>
+<xar:set name="editlabel"><xar:mlstring>Edit</xar:mlstring></xar:set>
+<xar:set name="addlabel"><xar:mlstring>Add new item</xar:mlstring></xar:set>
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:comment>
+            Common admin menu.
+            The variables used in this menu come from example_admin_getmenulinks()
+        </xar:comment>
+        <xar:comment>Only show the menus if this is NOT an ajax request</xar:comment>
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <xar:comment> the specific template for the current admin function comes here </xar:comment>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Manage items</xar:mlstring></h1>
+        <xar:comment>You may want to include an Add Item link in the body in case the Admin Tab Menu is turned OFF</xar:comment>
+        <div class="xar-align-right xar-padding-thick">
+            <a href="#xarModURL('example','admin','new')#" class="esprite xs-add" >&#160;#$addlabel#</a>
+        </div>
+        <div class="xar-mod-content">
+            <table class="xar-items">
+                <thead>
+                    <tr>
+                        <th>
+                            <xar:mlstring>Example Name</xar:mlstring>
+                        </th>
+                        <th>
+                            <xar:mlstring>Example Number</xar:mlstring>
+                        </th>
+                        <th>
+                            <xar:mlstring>Example Options</xar:mlstring>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <xar:comment>
+                        Set up a variable to hold the CSS class for alternating table row colors
+                    </xar:comment>
+                    <xar:set name="rowclass">'xar-norm'</xar:set>
+                    <xar:foreach in="$items" value="$item">
+                        <tr class="#$rowclass#">
+                            <td>
+                                #$item.name#
+                            </td>
+                            <td>
+                                #$item.number#
+                            </td>
+                            <td class="xar-align-center">
+                                <xar:comment>
+                                    We use sprite images here that work by specifying the
+                                    required class for the edit set of sprites (esprite) and the class for the specific icon (xs-modify or xs-delete)
+                                </xar:comment>
+                                <xar:if condition="empty($item['editurl'])">
+                                    #$editlabel#
+                                <xar:else />
+                                    <a href="#$item.editurl#" id="modify_#$item.exid#" title="#$editlabel#" class="esprite xs-modify" ><span>#$editlabel#</span></a>
+                                </xar:if>
+                                    &#160;&#160;
+                                <xar:if condition="empty($item['deleteurl'])">
+                                    #$deletelabel#
+                                <xar:else />
+                                    <a href="#$item.deleteurl#" id="delete_#$item.exid#" title="#$deletelabel#" class="esprite xs-delete"><span>#$deletelabel#" </span></a>
+                                </xar:if>
+                            </td>
+                        </tr>
+                        <xar:comment>
+                            Change the table row class after each iteration
+                        </xar:comment>
+                        <xar:set name="rowclass">$rowclass == 'xar-norm' ? 'xar-alt' : 'xar-norm'</xar:set>
+                    </xar:foreach>
+                </tbody>
+            </table>
+            <div class="xar-align-center xar-padding-thick">
+                <!-- add the pager here -->
+                #$pager#
+            </div>
+            <xar:comment>Add a legend for the icons using the sprites classes</xar:comment>
+            <div class="xar-form-footer">
+                <xar:mlstring>Legend: </xar:mlstring>
+                <p class="esprite xs-modify xar-displayinline" title="#$editlabel#" >&#160;#$editlabel# </p>&#160;
+                <p class="esprite xs-delete xar-displayinline" title="#$deletelabel#">&#160;#$deletelabel#</p> &#160;
+        </div>
+        </div>
+    </div>
+</div>
+

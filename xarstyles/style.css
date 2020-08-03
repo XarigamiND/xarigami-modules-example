@@ -1,0 +1,23 @@
+/**
+ * Example Standard Style Sheet
+ *
+ * @package modules
+ * @copyright (C) 2002-2005 The Digital Development Foundation
+ * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
+ *
+ * @subpackage Xarigami Example Module
+ * @copyright (C) 2007-2011 The Digital Development Foundation
+ * @link http://xarigami.com/projects
+ * @author Xarigami Team
+ */
+/**
+ * Standard Style Sheet
+ *
+ * This is the file to place your module specific CSS in...
+ *
+ * You call this file by adding the tag <xar:style scope="module" />
+ * to your templates. This tag implies that this style sheet is called style.css
+ * You can extend the tag with <xar:style scope="module" file="name" />. That will add the file 'name.css' to your template.
+ *
+ * @author Example Module development team
+ */

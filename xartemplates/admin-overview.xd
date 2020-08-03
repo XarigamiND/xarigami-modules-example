@@ -1,0 +1,118 @@
+<xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
+<xar:set name="modInfo">xarModGetInfo(xarModGetIDFromName('example'))</xar:set>
+<!-- This is a standard template for the module overview  -->
+<!-- Each module should have an overview page explaining what it does and giving
+     information on the blocks and hooks that it includes or accepts. -->
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:comment>
+            Common admin menu.
+            The variables used in this menu come from example_admin_getmenulinks()
+        </xar:comment>
+        <xar:comment>Only show the menus if this is NOT an ajax request</xar:comment>
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+
+    <xar:comment> the specific template for the current admin function comes here </xar:comment>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Overview</xar:mlstring></h1>
+        <div class="xar-mod-content">
+            <img src="#xarTplGetImage('admin.png','example')#" class="xar-module-icon" alt="official icon" width="96" height="96" />
+            <h3><xar:mlstring>What is it?</xar:mlstring></h3>
+            <p>
+                <em><xar:mlstring>Example is the documented Xaraya Example Module.</xar:mlstring></em>
+                <xar:mlstring>It is currently responsible for accomplishing two main tasks:</xar:mlstring>
+            </p>
+            <ol>
+                <li><xar:mlstring>Providing a simple module template with standard functions, blocks, hooks, Dynamic Data properties, and templates that Developers can use as a basis for a new module.</xar:mlstring></li>
+                <li><xar:mlstring>Providing documentation in the functions and template files for those that wish to learn about standard Xaraya Module development.</xar:mlstring></li>
+            </ol>
+            <p>
+                <xar:mlstring>The Example module demonstrates:</xar:mlstring>
+            </p>
+            <ol>
+                <li>
+                    <xar:mlstring>Examples of standard Xaraya functions commented in plain terms, and written with Xaraya coding standards.</xar:mlstring>
+                </li>
+                <li>
+                    <xar:mlstring>Templates with standard style classes, layouts and template requirements to meet Xaraya Block Layout coding standards.</xar:mlstring>
+                </li>
+                <li>
+                    <xar:mlstring>Examples of hooks, blocks, dynamic data properties, and event handlers.</xar:mlstring>
+                </li>
+                <li>
+                    <xar:mlstring>A simple demonstration on how to use xmlhttp requests (aka 'ajax'). The <strong>admin</strong> interface uses xml http requests to build up the
+                        editing and deletion interface.
+                   </xar:mlstring>
+                   <xar:mlstring>For more detailed info, look in the templates (e.g. xartemplates/includes/admin-menu.xd) in this module.</xar:mlstring>
+                </li>
+            </ol>
+            <h3><xar:mlstring>How to use it?</xar:mlstring></h3>
+            <p>
+                <xar:mlstring>This module is intended as a reference for other modules to use. Its output is just a basic non-usable output in many cases.</xar:mlstring>
+            </p>
+
+            <h3><xar:mlstring>Included Blocks</xar:mlstring></h3>
+            <ol>
+                <li><xar:mlstring>first</xar:mlstring></li>
+                <li><xar:mlstring>example</xar:mlstring></li>
+            </ol>
+
+            <h3><xar:mlstring>Included Hooks</xar:mlstring></h3>
+            <ol>
+                <li><xar:mlstring>Usermenu -- Allows interface with the Roles "My Account Page"</xar:mlstring></li>
+                <li><xar:mlstring>Search -- Allows interface with the Search Module.</xar:mlstring></li>
+            </ol>
+            <p>
+                <!-- Ensure we set variables to use in the setup of multilanguage strings so the vars are in context -->
+                <xar:set name="hookurl">#xarModURL('modules','admin','hooks',array('hook'=>'example'))#</xar:set>
+                <xar:set name="hooklink">'<a href="'.$hookurl.'">'.xarML('Modules - Configure Hooks - Example Module').'</a>'</xar:set>
+                <!-- setup our multilanguage string containing our predefined hooklink variable for the url and placeholder in the string -->
+                <xar:ml>
+                    <xar:mlstring>
+                        In these cases, the Example module provides the hook functionality.
+                        To activate the hooks go to #(1) From there click on the checkbox in either Roles or the
+                        Search module to activate the respective hooks.
+                    </xar:mlstring>
+                <xar:mlvar>#$hooklink#</xar:mlvar>
+                </xar:ml>
+            </p>
+
+            <h3><xar:mlstring>Included Dynamic Data Properties</xar:mlstring></h3>
+            <ul>
+                <li><xar:mlstring>Example -- Provides example code and templates for an Example property</xar:mlstring></li>
+            </ul>
+
+            <h3>
+                <xar:mlstring>Further Information</xar:mlstring>
+            </h3>
+            <p>
+                <xar:mlstring>Further information on the Example module can be found at</xar:mlstring>
+            </p>
+            <ol>
+                <xar:set name="extlink">'<a href="http://www.xaraya.com/index.php/release/36.html" title="'.xarML('Example Module - Xaraya Extension 36').'">'.xarML('Xaraya Extension and Releases').'</a>'</xar:set>
+                <li><xar:ml>
+                        <xar:mlstring>Example Extension page at #(1). Click on Version History tab at the bottom to get the latest release information.</xar:mlstring>
+                        <xar:mlvar>#$extlink#</xar:mlvar>
+                    </xar:ml>
+                </li>
+                <xar:set name="doclink">'<a href="http://www.xaraya.com/index.php/keywords/example/" title="'.xarML('Related documentation on Example').'">'.xarML('Xaraya Documentation').'</a>'</xar:set>
+                <li><xar:ml>
+                        <xar:mlstring>Related tutorials and documentation on Example found at #(1). </xar:mlstring>
+                        <xar:mlvar>#$doclink#</xar:mlvar>
+                    </xar:ml>
+                </li>
+            </ol>
+            <p class="xar-sub">
+                <xar:ml>
+                    <xar:mlstring>
+                        Example Module - Overview Revision 1.0.4 2009-10-24 for Example V#(1)
+                    </xar:mlstring>
+                    <xar:mlvar>#$modInfo.version#</xar:mlvar>
+                </xar:ml>
+            </p>
+        </div>
+    </div>
+</div>
