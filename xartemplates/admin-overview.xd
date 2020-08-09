@@ -88,23 +88,9 @@
             <h3>
                 <xar:mlstring>Further Information</xar:mlstring>
             </h3>
-            <p>
-                <xar:mlstring>Further information on the Example module can be found at</xar:mlstring>
-            </p>
-            <ol>
-                <xar:set name="extlink">'<a href="http://www.xaraya.com/index.php/release/36.html" title="'.xarML('Example Module - Xaraya Extension 36').'">'.xarML('Xaraya Extension and Releases').'</a>'</xar:set>
-                <li><xar:ml>
-                        <xar:mlstring>Example Extension page at #(1). Click on Version History tab at the bottom to get the latest release information.</xar:mlstring>
-                        <xar:mlvar>#$extlink#</xar:mlvar>
-                    </xar:ml>
-                </li>
-                <xar:set name="doclink">'<a href="http://www.xaraya.com/index.php/keywords/example/" title="'.xarML('Related documentation on Example').'">'.xarML('Xaraya Documentation').'</a>'</xar:set>
-                <li><xar:ml>
-                        <xar:mlstring>Related tutorials and documentation on Example found at #(1). </xar:mlstring>
-                        <xar:mlvar>#$doclink#</xar:mlvar>
-                    </xar:ml>
-                </li>
-            </ol>
+            <ul>
+                <li><xar:mlstring>Example Extension page</xar:mlstring> <xar:mlstring>(there is no project page yet)</xar:mlstring></li>
+            </ul>
             <p class="xar-sub">
                 <xar:ml>
                     <xar:mlstring>
